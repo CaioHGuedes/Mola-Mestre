@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
+import SearchActives from "@/components/SearchActives";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -24,8 +25,9 @@ export default function DashboardPage() {
     logoutMutation.mutate();
   }
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <DashboardWithPieChart />
+      <SearchActives />
       <div className="w-full max-w-4xl p-8 bg-white rounded-xl shadow-lg text-center mx-auto">
         <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
         <p className="mt-4 text-gray-600">
@@ -44,6 +46,6 @@ export default function DashboardPage() {
           </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

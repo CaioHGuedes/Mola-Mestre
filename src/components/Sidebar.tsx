@@ -8,6 +8,7 @@ import {
   Users,
   Settings,
   BadgeDollarSignIcon,
+  MessageCircleQuestionIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -17,6 +18,7 @@ const menuItems = [
   { icon: BadgeDollarSignIcon, name: "Seus ativos", href: "/actives" },
   { icon: Settings, name: "Configurações", href: "/settings" },
   { icon: Users, name: "Usuários", href: "/users" },
+  { icon: MessageCircleQuestionIcon, name: "Quiz", href: "/quiz" },
 ];
 
 export function Sidebar() {
