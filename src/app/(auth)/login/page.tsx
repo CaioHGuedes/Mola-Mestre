@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
+import { Loader2 } from "lucide-react";
 
 interface LoginFormData {
   email: string;
@@ -100,11 +101,18 @@ export default function LoginPage() {
 
         <div className="mt-6">
           <Button
+            className="w-full cursor-pointer"
             type="submit"
-            className="w-full"
             disabled={mutation.isPending}
           >
-            {mutation.isPending ? "Entrando..." : "Entrar"}
+            {mutation.isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Entrando...
+              </>
+            ) : (
+              "Entrar"
+            )}
           </Button>
         </div>
 

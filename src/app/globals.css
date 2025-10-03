@@ -112,6 +112,27 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@keyframes infinite-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-infinite-scroll {
+  animation: infinite-scroll 40s linear infinite;
+}
+
+.animate-infinite-scroll:hover {
+  animation-play-state: paused;
+}
+
+.animate-infinite-scroll {
+  will-change: transform;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

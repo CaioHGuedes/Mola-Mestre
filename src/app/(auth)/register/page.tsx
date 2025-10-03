@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 interface RegisterFormData {
   nome: string;
@@ -22,6 +24,7 @@ interface ApiError {
 }
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,11 +43,9 @@ export default function RegisterPage() {
       return response.data;
     },
     onSuccess: (data) => {
-      setSuccessMessage(
-        data.msg + " Você será redirecionado para o login em breve."
-      );
+      setSuccessMessage(data.msg + " Você será redirecionado para o login...");
       setTimeout(() => {
-        window.location.href = "/login";
+        router.push("/login");
       }, 3000);
     },
     onError: () => {
@@ -123,11 +124,18 @@ export default function RegisterPage() {
 
         <div className="mt-6">
           <Button
+            className="w-full cursor-pointer"
             type="submit"
-            className="w-full"
             disabled={mutation.isPending}
           >
-            {mutation.isPending ? "Cadastrando..." : "Registrar"}
+            {mutation.isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Cadastrando...
+              </>
+            ) : (
+              "Registrar"
+            )}
           </Button>
         </div>
 

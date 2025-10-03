@@ -2,10 +2,22 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import User from "@/lib/models/user";
 import bcrypt from "bcryptjs";
+import { registerSchema } from "@/lib/schemas/register";
 
 export async function POST(request: Request) {
   try {
     await dbConnect();
+
+    const body = await request.json();
+
+    const validation = registerSchema.safeParse(body);
+
+    if (!validation.success) {
+      return NextResponse.json(
+        { erro: validation.error.message },
+        { status: 400 }
+      );
+    }
 
     const { nome, email, senha } = await request.json();
 
