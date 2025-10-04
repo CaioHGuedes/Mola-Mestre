@@ -36,16 +36,16 @@ export function TopStocksTable() {
         <CardTitle>IBOVESPA {isLoading && "(Atualizando...)"}</CardTitle>
       </CardHeader>
       <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <h3 className="text-green-600 font-bold mb-2">📈 Maiores Altas</h3>
+        <div className="flex flex-col gap-3">
+          <h3 className="text-green-600 font-bold mb-2">📈 Ações em alta</h3>
           {topGainers.length ? (
             topGainers.map((s) => <StockCard key={s.symbol} stock={s} />)
           ) : (
             <p>Nenhuma alta</p>
           )}
         </div>
-        <div>
-          <h3 className="text-red-600 font-bold mb-2">📉 Maiores Baixas</h3>
+        <div className="flex flex-col gap-3">
+          <h3 className="text-red-600 font-bold mb-2">📉 Ações em queda</h3>
           {topLosers.length ? (
             topLosers.map((s) => <StockCard key={s.symbol} stock={s} />)
           ) : (

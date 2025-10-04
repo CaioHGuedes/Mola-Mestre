@@ -16,6 +16,7 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { InfiniteStockTicker } from "./InfiniteStockTicker";
 import { TopStocksTable } from "./TopStocksTable";
+import SearchActives from "./SearchActives";
 
 const compositionData = [
   { name: "AÇÕES", value: 60 },
@@ -125,6 +126,9 @@ export function DashboardWithPieChart() {
 
         <div className="md:col-span-2">
           <TopStocksTable />
+        </div>
+        <div className="md:col-span-2">
+          <SearchActives />
         </div>
       </div>
     </div>

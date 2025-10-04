@@ -2,16 +2,20 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   Users,
   Settings,
   BadgeDollarSignIcon,
   MessageCircleQuestionIcon,
+  LogOutIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { Button } from "./ui/button";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 const menuItems = [
   { icon: LayoutDashboard, name: "Dashboard", href: "/dashboard" },
@@ -25,6 +29,21 @@ export function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const router = useRouter();
+
+  const logoutMutation = useMutation({
+    mutationFn: () => axios.post("/api/auth/logout"),
+    onSuccess: () => {
+      router.push("/login");
+    },
+    onError: (error) => {
+      console.error("Erro ao fazer logout:", error);
+    },
+  });
+
+  function handleLogout() {
+    logoutMutation.mutate();
+  }
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -99,7 +118,15 @@ export function Sidebar() {
       </nav>
 
       <div className="p-4 border-t border-gray-500/30">
-        {/* Ícone de usuário futuramente */}
+        <div className="p-4 border-t border-gray-500/30">
+          <Button
+            onClick={handleLogout}
+            className="flex items-center cursor-pointer gap-2 w-full bg-[#09e277] hover:bg-[#08c76a] text-white"
+          >
+            <LogOutIcon className="h-5 w-5" />
+            {isExpanded && <span>Sair</span>}
+          </Button>
+        </div>
       </div>
     </aside>
   );

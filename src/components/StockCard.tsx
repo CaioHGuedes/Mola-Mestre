@@ -40,8 +40,8 @@ export function StockCard({ stock }: { stock: Stock }) {
       <div className="flex items-center gap-3">
         {stock.logourl ? (
           <Image
-            width={30}
-            height={30}
+            width={20}
+            height={20}
             src={stock.logourl}
             alt={stock.symbol}
             className="w-10 h-10 rounded-full"

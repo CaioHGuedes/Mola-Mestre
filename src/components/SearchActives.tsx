@@ -48,7 +48,7 @@ export default function SearchActives() {
   }
 
   return (
-    <div className="w-full max-w-4xl p-8 bg-white rounded-xl shadow-lg text-center mx-auto">
+    <div className="w-full max-w-7xl p-8 bg-white rounded-xl shadow-lg text-center mx-auto">
       <h1 className="text-3xl font-bold text-gray-800">Pesquisar ativos</h1>
 
       <div className="mt-4 p-4  rounded-lg">
@@ -77,7 +77,7 @@ export default function SearchActives() {
           <Button
             onClick={handleSearch}
             disabled={stockQuery.isLoading}
-            className="bg-green-600 hover:bg-green-700 text-white"
+            className="bg-green-600 hover:bg-green-700 text-white cursor-pointer"
           >
             Buscar
           </Button>
