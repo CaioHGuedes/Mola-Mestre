@@ -36,8 +36,10 @@ const QuizQuestion =
 export async function GET() {
   await dbConnect();
 
-  // Buscar todas as perguntas
-  const questions = await QuizQuestion.find().lean();
+  // Pegar 10 perguntas aleatórias
+  const questions = await QuizQuestion.aggregate([
+    { $sample: { size: 10 } }
+  ]);
 
   // Garantir que respostaCorreta seja number
   const perguntas = questions.map(q => ({
