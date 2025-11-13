@@ -7,17 +7,22 @@ export function middleware(request: NextRequest) {
 
   const isAuthPage = pathname === "/login" || pathname === "/register";
 
-  if (isAuthPage && token) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+  if (isAuthPage) {
+    if (token) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+    return NextResponse.next();
   }
 
-  if (pathname.startsWith("/dashboard") && !token) {
-    return NextResponse.redirect(new URL("/login", request.url));
+  if (!token) {
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("from", pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/login", "/register"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
