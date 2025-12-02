@@ -13,26 +13,12 @@ export async function POST(request: Request) {
     const validation = registerSchema.safeParse(body);
 
     if (!validation.success) {
-      return NextResponse.json(
-        { erro: validation.error.message },
-        { status: 400 }
-      );
+      const errorMessage = validation.error.issues[0].message;
+
+      return NextResponse.json({ erro: errorMessage }, { status: 400 });
     }
 
-    const { nome, email, senha } = await request.json();
-
-    if (!nome || !email || !senha) {
-      return NextResponse.json(
-        { erro: "Todos os campos são obrigatórios." },
-        { status: 400 }
-      );
-    }
-    if (senha.length < 6) {
-      return NextResponse.json(
-        { erro: "A senha deve ter no mínimo 6 caracteres." },
-        { status: 400 }
-      );
-    }
+    const { nome, email, senha } = validation.data;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
