@@ -20,28 +20,32 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { fetchStocks } from "@/app/services/topstock";
-import { Plus } from "lucide-react";
+import { Plus, Loader2 } from "lucide-react";
 import { TransactionPayload } from "@/types/actives";
 
 const STOCKS = ["PETR4", "MGLU3", "VALE3", "ITUB4"];
 
 export function AddTransactionModal() {
   const [isOpen, setIsOpen] = useState(false);
-  const [tipo, setTipo] = useState("COMPRA");
+  const [tipo, setTipo] = useState<"COMPRA" | "VENDA">("COMPRA");
   const [ticker, setTicker] = useState("");
-  const [quantidade, setQuantidade] = useState<number>(0);
-  const [preco, setPreco] = useState<number>(0);
+  const [quantidade, setQuantidade] = useState<number | string>("");
+  const [preco, setPreco] = useState<number | string>("");
   const [data, setData] = useState(new Date().toISOString().split("T")[0]);
+  const [isLoadingPrice, setIsLoadingPrice] = useState(false);
 
   const queryClient = useQueryClient();
 
   useEffect(() => {
     if (ticker) {
-      fetchStocks([ticker]).then((res) => {
-        if (res && res.length > 0) {
-          setPreco(res[0].regularMarketPrice);
-        }
-      });
+      setIsLoadingPrice(true);
+      fetchStocks([ticker])
+        .then((res) => {
+          if (res && res.length > 0) {
+            setPreco(res[0].regularMarketPrice);
+          }
+        })
+        .finally(() => setIsLoadingPrice(false));
     }
   }, [ticker]);
 
@@ -57,22 +61,35 @@ export function AddTransactionModal() {
 
   const resetForm = () => {
     setTicker("");
-    setQuantidade(0);
-    setPreco(0);
+    setQuantidade("");
+    setPreco("");
     setTipo("COMPRA");
+    setData(new Date().toISOString().split("T")[0]);
   };
 
   const handleSave = () => {
-    if (!ticker || quantidade <= 0 || preco <= 0) return;
+    const qtdNumber = Number(quantidade);
+    const precoNumber = Number(preco);
+
+    if (!ticker || qtdNumber <= 0 || precoNumber <= 0) return;
 
     mutation.mutate({
       ticker,
-      tipo: tipo as "COMPRA" | "VENDA",
-      quantidade,
-      preco,
+      tipo,
+      quantidade: qtdNumber,
+      preco: precoNumber,
       data: new Date(data),
     });
   };
+
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(value);
+  };
+
+  const valorTotal = (Number(quantidade) || 0) * (Number(preco) || 0);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -81,74 +98,106 @@ export function AddTransactionModal() {
           Adicionar Lançamento <Plus size={18} />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Novo Lançamento</DialogTitle>
         </DialogHeader>
 
         <div className="grid gap-4 py-4">
-          <div className="flex gap-2">
+          <div className="flex gap-3 w-full">
             <Button
+              type="button"
               variant={tipo === "COMPRA" ? "default" : "outline"}
-              className={tipo === "COMPRA" ? "bg-blue-600 w-full" : "w-full"}
+              className={`flex-1 ${
+                tipo === "COMPRA"
+                  ? "text-white bg-[#06ae5d] hover:bg-[#047b41]"
+                  : "text-[#06ae5d] border-[#06ae5d] hover:bg-[#047b41]/10"
+              }`}
               onClick={() => setTipo("COMPRA")}
             >
               Compra
             </Button>
             <Button
+              type="button"
               variant={tipo === "VENDA" ? "default" : "outline"}
-              className={tipo === "VENDA" ? "bg-red-600 w-full" : "w-full"}
+              className={`flex-1 ${
+                tipo === "VENDA"
+                  ? "bg-red-600 hover:bg-red-700 text-white"
+                  : "text-red-600 border-red-200 hover:bg-red-50"
+              }`}
               onClick={() => setTipo("VENDA")}
             >
               Venda
             </Button>
           </div>
 
-          <Select onValueChange={setTicker} value={ticker}>
-            <SelectTrigger>
-              <SelectValue placeholder="Selecione a Ação" />
-            </SelectTrigger>
-            <SelectContent>
-              {STOCKS.map((s) => (
-                <SelectItem key={s} value={s}>
-                  {s}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-gray-700">Ativo</label>
+            <Select onValueChange={setTicker} value={ticker}>
+              <SelectTrigger>
+                <SelectValue placeholder="Selecione a Ação" />
+              </SelectTrigger>
+              <SelectContent>
+                {STOCKS.map((s) => (
+                  <SelectItem key={s} value={s}>
+                    {s}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="text-sm font-medium">Data</label>
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-gray-700">Data</label>
               <Input
                 type="date"
                 value={data}
                 onChange={(e) => setData(e.target.value)}
               />
             </div>
-            <div>
-              <label className="text-sm font-medium">Quantidade</label>
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-gray-700">
+                Quantidade
+              </label>
               <Input
                 type="number"
+                min="0"
+                placeholder="0"
                 value={quantidade}
-                onChange={(e) => setQuantidade(Number(e.target.value))}
+                onChange={(e) => setQuantidade(e.target.value)}
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="text-sm font-medium">Preço Unitário (R$)</label>
+            <div className="space-y-1">
+              <div className="flex justify-between items-center">
+                <label className="text-sm font-medium text-gray-700">
+                  Preço (R$)
+                </label>
+                {isLoadingPrice && (
+                  <Loader2 className="w-3 h-3 animate-spin text-gray-400" />
+                )}
+              </div>
               <Input
                 type="number"
                 step="0.01"
+                min="0"
+                placeholder="0,00"
                 value={preco}
-                onChange={(e) => setPreco(Number(e.target.value))}
+                onChange={(e) => setPreco(e.target.value)}
               />
             </div>
-            <div>
-              <label className="text-sm font-medium">Valor Total</label>
-              <Input disabled value={`R$ ${(quantidade * preco).toFixed(2)}`} />
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-gray-700">
+                Valor Total
+              </label>
+              <Input
+                disabled
+                value={formatCurrency(valorTotal)}
+                className="bg-gray-50 font-semibold text-gray-700"
+              />
             </div>
           </div>
         </div>
@@ -157,8 +206,22 @@ export function AddTransactionModal() {
           <Button variant="outline" onClick={() => setIsOpen(false)}>
             Cancelar
           </Button>
-          <Button onClick={handleSave} disabled={mutation.isPending}>
-            {mutation.isPending ? "Salvando..." : "Adicionar Lançamento"}
+          <Button
+            onClick={handleSave}
+            disabled={mutation.isPending || !ticker || Number(quantidade) <= 0}
+            className={
+              tipo === "COMPRA"
+                ? "bg-[#06ae5d] hover:bg-[#047b41]"
+                : "bg-red-600 hover:bg-red-700"
+            }
+          >
+            {mutation.isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Salvando...
+              </>
+            ) : (
+              "Confirmar"
+            )}
           </Button>
         </div>
       </DialogContent>
