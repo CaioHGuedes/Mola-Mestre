@@ -33,11 +33,35 @@ export async function POST(request: Request) {
       return NextResponse.json({ erro: "Dados incompletos" }, { status: 400 });
     }
 
+    const qtdNumber = Number(quantidade);
+
+    if (tipo === "VENDA") {
+      const historicoAtivo = await Transaction.find({
+        userId: user.id,
+        ticker: ticker,
+      });
+
+      const saldoAtual = historicoAtivo.reduce((acc, tx) => {
+        if (tx.tipo === "COMPRA") return acc + tx.quantidade;
+        if (tx.tipo === "VENDA") return acc - tx.quantidade;
+        return acc;
+      }, 0);
+
+      if (qtdNumber > saldoAtual) {
+        return NextResponse.json(
+          {
+            erro: `Saldo insuficiente. Você possui ${saldoAtual} ações de ${ticker}, mas tentou vender ${qtdNumber}.`,
+          },
+          { status: 400 }
+        );
+      }
+    }
+
     const newTransaction = await Transaction.create({
       userId: user.id,
       ticker,
       tipo,
-      quantidade: Number(quantidade),
+      quantidade: qtdNumber,
       preco: Number(preco),
       data: data || new Date(),
     });

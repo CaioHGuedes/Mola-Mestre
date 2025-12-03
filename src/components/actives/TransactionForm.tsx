@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -12,10 +11,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { fetchStocks } from "@/app/services/topstock";
-import { Loader2 } from "lucide-react";
-import { TransactionPayload } from "@/types/actives";
+import { Loader2, AlertCircle } from "lucide-react";
+import { Transaction, TransactionPayload } from "@/types/actives";
 import { formatCurrency } from "@/lib/utils";
 
 const STOCKS = ["PETR4", "MGLU3", "VALE3", "ITUB4"];
@@ -23,6 +22,15 @@ const STOCKS = ["PETR4", "MGLU3", "VALE3", "ITUB4"];
 interface TransactionFormProps {
   onSuccess: (tipo: "COMPRA" | "VENDA") => void;
   onCancel: () => void;
+}
+
+interface ApiErrorResponse {
+  erro: string;
+}
+
+interface ApiSuccessResponse {
+  msg: string;
+  transaction: Transaction;
 }
 
 export function TransactionForm({ onSuccess, onCancel }: TransactionFormProps) {
@@ -48,9 +56,18 @@ export function TransactionForm({ onSuccess, onCancel }: TransactionFormProps) {
     }
   }, [ticker]);
 
-  const mutation = useMutation({
-    mutationFn: async (newTx: TransactionPayload) =>
-      axios.post("/api/transactions", newTx),
+  const mutation = useMutation<
+    ApiSuccessResponse,
+    AxiosError<ApiErrorResponse>,
+    TransactionPayload
+  >({
+    mutationFn: async (newTx) => {
+      const response = await axios.post<ApiSuccessResponse>(
+        "/api/transactions",
+        newTx
+      );
+      return response.data;
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
       onSuccess(tipo);
@@ -58,6 +75,10 @@ export function TransactionForm({ onSuccess, onCancel }: TransactionFormProps) {
   });
 
   const handleSave = () => {
+    if (mutation.isError) {
+      mutation.reset();
+    }
+
     const qtdNumber = Number(quantidade);
     const precoNumber = Number(preco);
 
@@ -76,10 +97,6 @@ export function TransactionForm({ onSuccess, onCancel }: TransactionFormProps) {
 
   return (
     <>
-      <DialogHeader>
-        <DialogTitle>Novo Lançamento</DialogTitle>
-      </DialogHeader>
-
       <div className="grid gap-4 py-4">
         <div className="flex gap-3 w-full">
           <Button
@@ -178,6 +195,16 @@ export function TransactionForm({ onSuccess, onCancel }: TransactionFormProps) {
           </div>
         </div>
       </div>
+
+      {mutation.isError && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md flex items-start gap-2 text-sm mb-4 animate-in fade-in slide-in-from-top-1">
+          <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+          <span>
+            {mutation.error?.response?.data?.erro ||
+              "Ocorreu um erro desconhecido ao processar o lançamento."}
+          </span>
+        </div>
+      )}
 
       <div className="flex justify-end gap-2">
         <Button variant="outline" onClick={onCancel}>
