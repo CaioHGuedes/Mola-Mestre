@@ -70,16 +70,37 @@ export default function ActivesPage() {
     queryKey: ["quotes", tickersUserHas],
     queryFn: () => fetchStocks(tickersUserHas),
     enabled: tickersUserHas.length > 0,
-    refetchInterval: 10000,
+    refetchInterval: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 2,
   });
 
   const finalData = useMemo(() => {
     let patrimonioTotal = 0;
     let valorInvestidoTotal = 0;
     let variacaoDoDiaTotal = 0;
+    let proventosTotais = 0;
 
     const items = portfolio.map((item) => {
       const quote = quotes?.find((q) => q.symbol === item.ticker);
+
+      let totalProventosAtivo = 0;
+      if (quote?.dividendsData?.cashDividends) {
+        const dividendosRecentes = quote.dividendsData.cashDividends.filter(
+          (div) => {
+            if (!div.paymentDate) return false;
+            const ano = new Date(div.paymentDate).getFullYear();
+            // ALTERAR O ANO CASO DESEJAR
+            return ano >= 2024;
+          }
+        );
+
+        totalProventosAtivo = dividendosRecentes.reduce((acc, div) => {
+          return acc + div.rate * item.quantidade;
+        }, 0);
+      }
+
+      proventosTotais += totalProventosAtivo;
+
       const precoAtual = quote?.regularMarketPrice || item.precoMedio;
 
       const variacaoUnitaria = quote?.regularMarketChange || 0;
@@ -113,6 +134,7 @@ export default function ActivesPage() {
         valorInvestidoTotal,
         lucroTotal,
         variacao: variacaoDoDiaTotal,
+        proventos: proventosTotais,
       },
     };
   }, [portfolio, quotes]);

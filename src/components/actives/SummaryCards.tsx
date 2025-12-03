@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { DollarSign, TrendingUp, HandCoins, ArrowUpDown } from "lucide-react";
+import { formatCurrency } from "@/lib/utils";
 
 interface SummaryProps {
   summary: {
@@ -7,6 +8,7 @@ interface SummaryProps {
     valorInvestidoTotal: number;
     lucroTotal: number;
     variacao: number;
+    proventos: number;
   };
 }
 
@@ -18,6 +20,7 @@ export function SummaryCards({ summary }: SummaryProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      {/* Card 1: Patrimônio Total */}
       <Card className="shadow-sm hover:shadow-md transition-shadow">
         <CardContent className="p-6">
           <div className="flex justify-between items-start mb-4">
@@ -45,6 +48,7 @@ export function SummaryCards({ summary }: SummaryProps) {
         </CardContent>
       </Card>
 
+      {/* Card 2: Lucro/Prejuízo */}
       <Card className="shadow-sm hover:shadow-md transition-shadow">
         <CardContent className="p-6">
           <div className="flex justify-between items-start mb-4">
@@ -85,7 +89,7 @@ export function SummaryCards({ summary }: SummaryProps) {
         </CardContent>
       </Card>
 
-      {/* Proventos (Mockado por enquanto) */}
+      {/* Proventos  */}
       <Card className="shadow-sm hover:shadow-md transition-shadow">
         <CardContent className="p-6">
           <div className="flex justify-between items-start mb-4">
@@ -97,12 +101,15 @@ export function SummaryCards({ summary }: SummaryProps) {
             <p className="text-sm text-gray-500 font-semibold uppercase tracking-wider">
               Proventos
             </p>
-            <h3 className="text-2xl font-bold text-gray-900 mt-1">R$ 0,00</h3>
-            <p className="text-xs text-gray-400 mt-1">Recebidos</p>
+            <h3 className="text-2xl font-bold text-gray-900 mt-1">
+              {formatCurrency(summary.proventos)}
+            </h3>
+            <p className="text-xs text-gray-400 mt-1">Recebidos em 2024/25</p>
           </div>
         </CardContent>
       </Card>
 
+      {/* Card 4: Variação do Dia */}
       <Card className="shadow-sm hover:shadow-md transition-shadow">
         <CardContent className="p-6">
           <div className="flex justify-between items-start mb-4">

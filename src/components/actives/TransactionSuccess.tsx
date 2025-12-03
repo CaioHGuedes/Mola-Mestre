@@ -18,7 +18,7 @@ export function TransactionSuccess({
         <CheckCircle2 className="w-16 h-16 text-[#06ae5d] animate-bounce" />
       </div>
 
-      <h2 className="text-2xl font-bold text-gray-800 mb-2">Obaaaa!</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-2">Aaaaee!</h2>
 
       <p className="text-gray-600 mb-6 max-w-[80%]">
         {tipo === "COMPRA" ? "Compra" : "Venda"} de ativo lançada com sucesso!
