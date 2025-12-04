@@ -26,7 +26,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
-    "framer-motion": "^12.23.22",
+    "framer-motion": "^12.23.25",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.544.0",
     "mongoose": "^8.18.3",
@@ -35,7 +35,7 @@
     "react-day-picker": "^9.11.1",
     "react-dom": "19.1.0",
     "react-hook-form": "^7.63.0",
-    "recharts": "^3.2.1",
+    "recharts": "^2.15.4",
     "tailwind-merge": "^3.3.1",
     "zod": "^4.1.11"
   },
