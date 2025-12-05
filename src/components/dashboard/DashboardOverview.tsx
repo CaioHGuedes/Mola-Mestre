@@ -53,6 +53,13 @@ interface Position {
   totalInvestido: number;
 }
 
+interface Goal {
+  id: string;
+  title: string;
+  targetAmount: number;
+  currentAmount: number;
+}
+
 const PIE_COLORS = [
   "#3b82f6",
   "#10b981",
@@ -77,6 +84,11 @@ export function DashboardOverview() {
     queryKey: ["quotes-dashboard"],
     queryFn: () => fetchStocks(["PETR4", "VALE3", "ITUB4", "MGLU3"]),
     refetchInterval: 60000,
+  });
+
+  const { data: goals, isLoading: isLoadingGoals } = useQuery<Goal[]>({
+    queryKey: ["goals"],
+    queryFn: async () => (await axios.get("/api/goals")).data,
   });
 
   const dashboardData = useMemo(() => {
@@ -155,7 +167,7 @@ export function DashboardOverview() {
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
         <div className="md:col-span-7 lg:col-span-8">
-          <GoalProgressWidget />
+          <GoalProgressWidget goals={goals} isLoading={isLoadingGoals} />
         </div>
         <div className="md:col-span-5 lg:col-span-4">
           <NewsFlashWidget />

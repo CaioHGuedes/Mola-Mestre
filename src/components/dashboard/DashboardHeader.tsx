@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { User, Sun, Moon, Sunrise } from "lucide-react";
+import { AnimatedButton } from "../ui/animated-button";
 
 interface DashboardHeaderProps {
   userName?: string;
@@ -63,13 +64,7 @@ export function DashboardHeader({
         </div>
       </div>
 
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="hidden md:flex bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg shadow-gray-200"
-      >
-        Novo Aporte +
-      </motion.button>
+      <AnimatedButton className="hidden md:flex">Novo Aporte +</AnimatedButton>
     </motion.div>
   );
 }
