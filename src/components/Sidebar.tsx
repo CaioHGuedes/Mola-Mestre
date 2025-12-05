@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   Users,
-  Settings,
+  Target,
   BadgeDollarSignIcon,
   MessageCircleQuestionIcon,
   LogOutIcon,
@@ -20,7 +20,7 @@ import axios from "axios";
 const menuItems = [
   { icon: LayoutDashboard, name: "Dashboard", href: "/dashboard" },
   { icon: BadgeDollarSignIcon, name: "Seus ativos", href: "/actives" },
-  { icon: Settings, name: "Configurações", href: "/settings" },
+  { icon: Target, name: "Metas", href: "/goals" },
   { icon: Users, name: "Usuários", href: "/users" },
   { icon: MessageCircleQuestionIcon, name: "Quiz", href: "/quiz" },
 ];

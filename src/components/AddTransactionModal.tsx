@@ -8,11 +8,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { triggerConfetti } from "@/lib/confetti";
 import { TransactionForm } from "@/components/actives/TransactionForm";
 import { TransactionSuccess } from "@/components/actives/TransactionSuccess";
+import { AnimatedButton } from "./ui/animated-button";
 
 type ModalStep = "FORM" | "SUCCESS";
 
@@ -48,9 +48,9 @@ export function AddTransactionModal() {
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button className="bg-black text-white hover:bg-gray-800 cursor-pointer flex items-center gap-2 px-6">
+        <AnimatedButton>
           Adicionar Lançamento <Plus size={18} />
-        </Button>
+        </AnimatedButton>
       </DialogTrigger>
 
       <DialogContent
