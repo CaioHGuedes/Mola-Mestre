@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
-  Users,
+  Globe,
   Target,
   BadgeDollarSignIcon,
   MessageCircleQuestionIcon,
@@ -21,7 +21,7 @@ const menuItems = [
   { icon: LayoutDashboard, name: "Dashboard", href: "/dashboard" },
   { icon: BadgeDollarSignIcon, name: "Seus ativos", href: "/actives" },
   { icon: Target, name: "Metas", href: "/goals" },
-  { icon: Users, name: "Usuários", href: "/users" },
+  { icon: Globe, name: "News", href: "/news" },
   { icon: MessageCircleQuestionIcon, name: "Quiz", href: "/quiz" },
 ];
 
