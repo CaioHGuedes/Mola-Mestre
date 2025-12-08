@@ -33,7 +33,7 @@ import { Loader2, PieChart as PieIcon, BarChart3 } from "lucide-react";
 import { DashboardHeader } from "./DashboardHeader";
 import { GoalProgressWidget } from "./GoalProgressWidget";
 import { NewsFlashWidget } from "./NewsFlashWidget";
-import { MarketMovers } from "./MarketMovers";
+import { MarketMovers } from "./market-movers/MarketMovers";
 
 interface Transaction {
   id: string;
