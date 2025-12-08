@@ -1,112 +1,77 @@
 "use client";
 
 import React, { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
-import axios from "axios";
-
-type Pergunta = {
-  pergunta: string;
-  alternativas: string[];
-  respostaCorreta: number;
-  categoria: string;
-  dificuldade: string;
-};
+import {
+  ALL_QUESTIONS,
+  QuizQuestion,
+  Dificuldade,
+} from "@/data/quiz-questions";
+import { QuizMenu } from "@/components/quiz/QuizMenu";
+import { QuizGame } from "@/components/quiz/QuizGame";
+import { QuizResult } from "@/components/quiz/QuizResult";
 
 export default function QuizFinanceiroPage() {
-  const { data: perguntas = [], isLoading } = useQuery<Pergunta[]>({
-    queryKey: ["quiz"],
-    queryFn: async () => {
-      const res = await axios.get("/api/quiz");
-      return res.data;
-    },
-  });
+  const [dificuldade, setDificuldade] = useState<Dificuldade | null>(null);
+  const [gameState, setGameState] = useState<"menu" | "playing" | "result">(
+    "menu"
+  );
+  const [perguntasDaRodada, setPerguntasDaRodada] = useState<QuizQuestion[]>(
+    []
+  );
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [acertos, setAcertos] = useState(0);
-  const [finalizado, setFinalizado] = useState(false);
 
-  const [selecionada, setSelecionada] = useState<number | null>(null);
-  const [mostraCorreta, setMostraCorreta] = useState(false);
+  const iniciarQuiz = (nivel: Dificuldade) => {
+    const filtradas = ALL_QUESTIONS.filter((q) => q.dificuldade === nivel);
+    const embaralhadas = [...filtradas].sort(() => 0.5 - Math.random());
+    setPerguntasDaRodada(embaralhadas.slice(0, 10));
 
-  if (isLoading) return <p>Carregando quiz...</p>;
-  if (!perguntas || perguntas.length === 0) return <p>Nenhuma pergunta disponível.</p>;
+    setDificuldade(nivel);
+    setGameState("playing");
+    setAcertos(0);
+    setCurrentIndex(0);
+  };
 
-  const perguntaAtual = perguntas[currentIndex];
-
-  const responder = (indexOpcao: number) => {
-    if (mostraCorreta) return; // evita clicar de novo após mostrar a resposta
-
-    setSelecionada(indexOpcao);
-    setMostraCorreta(true);
-
-    if (indexOpcao === perguntaAtual.respostaCorreta) {
-      setAcertos(prev => prev + 1);
-    }
+  const handleAcerto = () => {
+    setAcertos((prev) => prev + 1);
   };
 
   const proximaPergunta = () => {
-    setSelecionada(null);
-    setMostraCorreta(false);
-
-    if (currentIndex + 1 < perguntas.length) {
-      setCurrentIndex(prev => prev + 1);
+    if (currentIndex + 1 < perguntasDaRodada.length) {
+      setCurrentIndex((prev) => prev + 1);
     } else {
-      setFinalizado(true);
+      setGameState("result");
     }
   };
 
-  if (finalizado) {
-    return (
-      <div className="w-full max-w-2xl p-8 bg-white rounded-xl shadow-lg text-center mx-auto flex flex-col gap-6">
-        <h1 className="text-3xl font-bold text-black">Resultado 🎉</h1>
-        <p className="text-lg font-semibold text-green-600">
-          Você acertou {acertos} de {perguntas.length} perguntas!
-        </p>
-        <Button onClick={() => {
-          setCurrentIndex(0);
-          setAcertos(0);
-          setFinalizado(false);
-        }}>
-          Refazer Quiz
-        </Button>
-      </div>
-    );
-  }
+  const reiniciar = () => {
+    setDificuldade(null);
+    setGameState("menu");
+  };
 
   return (
-    <div className="w-full max-w-2xl p-8 bg-white rounded-xl shadow-lg text-center mx-auto flex flex-col gap-6">
-      <h1 className="text-2xl font-bold text-black">
-        Pergunta {currentIndex + 1} de {perguntas.length}
-      </h1>
+    <div className="w-full h-[calc(100vh-100px)] overflow-hidden">
+      {gameState === "menu" && <QuizMenu onStart={iniciarQuiz} />}
 
-      <h2 className="font-semibold text-lg text-black">{perguntaAtual.pergunta}</h2>
+      {gameState === "playing" && (
+        <QuizGame
+          pergunta={perguntasDaRodada[currentIndex]}
+          indiceAtual={currentIndex}
+          totalPerguntas={perguntasDaRodada.length}
+          dificuldade={dificuldade}
+          onAcerto={handleAcerto}
+          onProxima={proximaPergunta}
+        />
+      )}
 
-      <div className="flex flex-col gap-3 mt-4">
-        {perguntaAtual.alternativas.map((opcao, i) => {
-          let bgClass = "bg-gray-50 hover:bg-gray-200";
-
-          if (mostraCorreta) {
-            if (i === perguntaAtual.respostaCorreta) bgClass = "bg-green-300";
-            else if (i === selecionada && i !== perguntaAtual.respostaCorreta) bgClass = "bg-red-300";
-          }
-
-          return (
-            <Button
-              key={i}
-              onClick={() => responder(i)}
-              className={`p-3 rounded-lg border text-left transition ${bgClass} text-black`}
-            >
-              {opcao}
-            </Button>
-          );
-        })}
-      </div>
-
-      {mostraCorreta && (
-        <Button onClick={proximaPergunta} className="mt-4">
-          Próxima
-        </Button>
+      {gameState === "result" && (
+        <QuizResult
+          acertos={acertos}
+          totalPerguntas={perguntasDaRodada.length}
+          dificuldade={dificuldade}
+          onReiniciar={reiniciar}
+        />
       )}
     </div>
   );

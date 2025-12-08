@@ -1,0 +1,359 @@
+export type Dificuldade = "Fácil" | "Médio" | "Difícil";
+
+export interface QuizQuestion {
+  id: number;
+  pergunta: string;
+  alternativas: string[];
+  respostaCorreta: number;
+  dificuldade: Dificuldade;
+}
+
+export const ALL_QUESTIONS: QuizQuestion[] = [
+  {
+    id: 1,
+    pergunta: "O que significa a sigla SELIC?",
+    alternativas: [
+      "Sistema Especial de Liquidação e de Custódia",
+      "Sistema Econômico de Lucros e Investimentos",
+      "Serviço de Liquidez Imediata de Crédito",
+      "Superintendência de Economia Livre e Câmbio",
+    ],
+    respostaCorreta: 0,
+    dificuldade: "Fácil",
+  },
+  {
+    id: 2,
+    pergunta: "O que é inflação?",
+    alternativas: [
+      "A queda generalizada dos preços",
+      "O aumento generalizado e contínuo dos preços",
+      "O aumento do valor da moeda nacional",
+      "A taxa de juros cobrada pelos bancos",
+    ],
+    respostaCorreta: 1,
+    dificuldade: "Fácil",
+  },
+  {
+    id: 3,
+    pergunta: "Ao comprar uma ação na bolsa de valores, você se torna:",
+    alternativas: [
+      "Credor da empresa",
+      "Funcionário da empresa",
+      "Sócio da empresa",
+      "Fornecedor da empresa",
+    ],
+    respostaCorreta: 2,
+    dificuldade: "Fácil",
+  },
+  {
+    id: 4,
+    pergunta:
+      "Qual investimento é conhecido por ser emprestar dinheiro ao governo?",
+    alternativas: ["Ações", "Tesouro Direto", "CDB", "Fundo Imobiliário"],
+    respostaCorreta: 1,
+    dificuldade: "Fácil",
+  },
+  {
+    id: 5,
+    pergunta: "O que são Dividendos?",
+    alternativas: [
+      "Taxas cobradas pela bolsa de valores",
+      "Imposto sobre lucro financeiro",
+      "Parte do lucro de uma empresa distribuído aos acionistas",
+      "Juros pagos pelo governo",
+    ],
+    respostaCorreta: 2,
+    dificuldade: "Fácil",
+  },
+  {
+    id: 6,
+    pergunta: "O que significa Liquidez em um investimento?",
+    alternativas: [
+      "A facilidade e rapidez com que se converte o ativo em dinheiro",
+      "O quanto o investimento rende por mês",
+      "O risco de perder todo o dinheiro",
+      "A quantidade de impostos a pagar",
+    ],
+    respostaCorreta: 0,
+    dificuldade: "Fácil",
+  },
+  {
+    id: 7,
+    pergunta: "Qual órgão é responsável por controlar a inflação no Brasil?",
+    alternativas: [
+      "Banco do Brasil",
+      "Receita Federal",
+      "Banco Central (Bacen)",
+      "Caixa Econômica Federal",
+    ],
+    respostaCorreta: 2,
+    dificuldade: "Fácil",
+  },
+  {
+    id: 8,
+    pergunta: "O que é o CDI?",
+    alternativas: [
+      "Certificado de Depósito Interbancário",
+      "Crédito Direto ao Investidor",
+      "Custo de Dívida Interna",
+      "Caixa de Depósito Imediato",
+    ],
+    respostaCorreta: 0,
+    dificuldade: "Fácil",
+  },
+  {
+    id: 9,
+    pergunta:
+      "Qual destas opções é considerada o investimento mais conservador/seguro?",
+    alternativas: [
+      "Bitcoin",
+      "Day Trade em Dólar",
+      "Tesouro Selic",
+      "Ações de Small Caps",
+    ],
+    respostaCorreta: 2,
+    dificuldade: "Fácil",
+  },
+  {
+    id: 10,
+    pergunta: "O que é um CDB?",
+    alternativas: [
+      "Certificado de Depósito Bancário",
+      "Crédito de Débito Brasileiro",
+      "Conta de Depósito Beneficente",
+      "Custo de Dívida Bancária",
+    ],
+    respostaCorreta: 0,
+    dificuldade: "Fácil",
+  },
+
+  {
+    id: 11,
+    pergunta: "Qual é o valor máximo garantido pelo FGC por CPF e instituição?",
+    alternativas: [
+      "R$ 100.000,00",
+      "R$ 250.000,00",
+      "R$ 500.000,00",
+      "R$ 1.000.000,00",
+    ],
+    respostaCorreta: 1,
+    dificuldade: "Médio",
+  },
+  {
+    id: 12,
+    pergunta:
+      "Qual destes investimentos é isento de Imposto de Renda para Pessoa Física?",
+    alternativas: ["CDB", "Tesouro Direto", "LCI e LCA", "ETF de Ações"],
+    respostaCorreta: 2,
+    dificuldade: "Médio",
+  },
+  {
+    id: 13,
+    pergunta: "O que é 'Day Trade'?",
+    alternativas: [
+      "Investir pensando na aposentadoria",
+      "Comprar e vender o mesmo ativo no mesmo dia",
+      "Comprar ações de empresas americanas",
+      "Vender ações alugadas",
+    ],
+    respostaCorreta: 1,
+    dificuldade: "Médio",
+  },
+  {
+    id: 14,
+    pergunta: "O que significa a sigla IPO?",
+    alternativas: [
+      "Initial Public Offering (Oferta Pública Inicial)",
+      "Internal Profit Organization",
+      "International Price Option",
+      "Investimento Para Otimização",
+    ],
+    respostaCorreta: 0,
+    dificuldade: "Médio",
+  },
+  {
+    id: 15,
+    pergunta:
+      "Nos Fundos Imobiliários (FIIs), a distribuição de rendimentos costuma ser:",
+    alternativas: ["Anual", "Semestral", "Mensal", "Diária"],
+    respostaCorreta: 2,
+    dificuldade: "Médio",
+  },
+  {
+    id: 16,
+    pergunta: "O que é o indicador P/L (Preço sobre Lucro)?",
+    alternativas: [
+      "Quanto a empresa paga de lucro aos diretores",
+      "O tempo teórico para reaver o capital investido através dos lucros",
+      "A porcentagem de lucro sobre a receita bruta",
+      "O preço da ação dividido pela liquidez",
+    ],
+    respostaCorreta: 1,
+    dificuldade: "Médio",
+  },
+  {
+    id: 17,
+    pergunta: "O que acontece no sistema de 'Come-Cotas' em fundos?",
+    alternativas: [
+      "O gestor cobra uma taxa extra de performance",
+      "O governo antecipa a cobrança de IR semestralmente reduzindo cotas",
+      "O fundo perde cotistas por mau desempenho",
+      "O investidor é obrigado a vender suas cotas",
+    ],
+    respostaCorreta: 1,
+    dificuldade: "Médio",
+  },
+  {
+    id: 18,
+    pergunta: "Qual a alíquota de IR para Day Trade em ações?",
+    alternativas: ["15%", "20%", "22,5%", "Isento até R$ 20 mil"],
+    respostaCorreta: 1,
+    dificuldade: "Médio",
+  },
+  {
+    id: 19,
+    pergunta: "O que é um ETF (Exchange Traded Fund)?",
+    alternativas: [
+      "Um fundo de pensão privada",
+      "Um fundo negociado em bolsa que replica um índice",
+      "Um título de dívida emitido por empresas",
+      "Uma ação de empresa de tecnologia",
+    ],
+    respostaCorreta: 1,
+    dificuldade: "Médio",
+  },
+  {
+    id: 20,
+    pergunta: "O que significa 'Bear Market'?",
+    alternativas: [
+      "Mercado em tendência de alta",
+      "Mercado lateralizado",
+      "Mercado em tendência de baixa (Pessimismo)",
+      "Mercado volátil sem direção",
+    ],
+    respostaCorreta: 2,
+    dificuldade: "Médio",
+  },
+
+  {
+    id: 21,
+    pergunta:
+      "Qual o limite de isenção de IR para vendas mensais de ações (Swing Trade)?",
+    alternativas: [
+      "R$ 20.000,00",
+      "R$ 35.000,00",
+      "R$ 50.000,00",
+      "Não existe isenção",
+    ],
+    respostaCorreta: 0,
+    dificuldade: "Difícil",
+  },
+  {
+    id: 22,
+    pergunta: "No mercado de Opções, o que é uma 'Put'?",
+    alternativas: [
+      "Uma opção de compra",
+      "Uma opção de venda",
+      "Um contrato futuro de dólar",
+      "Uma venda a descoberto",
+    ],
+    respostaCorreta: 1,
+    dificuldade: "Difícil",
+  },
+  {
+    id: 23,
+    pergunta: "O que caracteriza uma política monetária 'Hawkish'?",
+    alternativas: [
+      "Tendência a baixar juros para estimular crescimento",
+      "Postura austera, propensão a subir juros para combater inflação",
+      "Neutralidade em relação à taxa de juros",
+      "Injeção de liquidez ilimitada no mercado",
+    ],
+    respostaCorreta: 1,
+    dificuldade: "Difícil",
+  },
+  {
+    id: 24,
+    pergunta: "O que é 'Venda a Descoberto' (Short Selling)?",
+    alternativas: [
+      "Vender uma ação que você possui na carteira",
+      "Vender um ativo que você não possui, apostando na queda",
+      "Vender ações no fracionário",
+      "Vender ações durante o After Market",
+    ],
+    respostaCorreta: 1,
+    dificuldade: "Difícil",
+  },
+  {
+    id: 25,
+    pergunta: "O que é um BDR?",
+    alternativas: [
+      "Um título de dívida do governo brasileiro",
+      "Certificado que representa ações de empresas estrangeiras no Brasil",
+      "Uma ação de empresa brasileira negociada nos EUA",
+      "Um fundo de índice brasileiro",
+    ],
+    respostaCorreta: 1,
+    dificuldade: "Difícil",
+  },
+  {
+    id: 26,
+    pergunta: "Qual a alíquota de IR sobre o lucro na venda de cotas de FIIs?",
+    alternativas: [
+      "15% sobre o lucro",
+      "20% sobre o lucro",
+      "Isento até R$ 20 mil",
+      "22,5% sobre o lucro",
+    ],
+    respostaCorreta: 1,
+    dificuldade: "Difícil",
+  },
+  {
+    id: 27,
+    pergunta: "O que é a 'Inversão da Curva de Juros'?",
+    alternativas: [
+      "Quando os juros de curto prazo ficam maiores que os de longo prazo",
+      "Quando a bolsa cai e o dólar sobe",
+      "Quando o CDI supera a Selic",
+      "Quando a inflação fica negativa",
+    ],
+    respostaCorreta: 0,
+    dificuldade: "Difícil",
+  },
+  {
+    id: 28,
+    pergunta: "O que é 'Marcação a Mercado' na Renda Fixa?",
+    alternativas: [
+      "A garantia de receber o valor contratado no vencimento",
+      "A atualização diária do preço do título",
+      "A marcação de quais ativos comprar no dia",
+      "A taxa fixa cobrada pela corretora",
+    ],
+    respostaCorreta: 1,
+    dificuldade: "Difícil",
+  },
+  {
+    id: 29,
+    pergunta: "O que é Beta em uma ação?",
+    alternativas: [
+      "A medida de volatilidade do ativo em relação ao mercado",
+      "O código da ação na bolsa",
+      "O lucro líquido por ação",
+      "A taxa de crescimento anual",
+    ],
+    respostaCorreta: 0,
+    dificuldade: "Difícil",
+  },
+  {
+    id: 30,
+    pergunta: "O que são Debêntures Incentivadas?",
+    alternativas: [
+      "Títulos de empresas com isenção de IR para pessoa física",
+      "Títulos públicos federais",
+      "Ações de empresas de infraestrutura",
+      "Empréstimos bancários com juros baixos",
+    ],
+    respostaCorreta: 0,
+    dificuldade: "Difícil",
+  },
+];
