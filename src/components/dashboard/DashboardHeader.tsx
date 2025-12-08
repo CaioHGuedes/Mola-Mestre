@@ -3,7 +3,6 @@
 import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { User, Sun, Moon, Sunrise } from "lucide-react";
-import { AnimatedButton } from "../ui/animated-button";
 
 interface DashboardHeaderProps {
   userName?: string;
@@ -63,8 +62,6 @@ export function DashboardHeader({
           <p className="text-gray-500 text-sm">{message}</p>
         </div>
       </div>
-
-      <AnimatedButton className="hidden md:flex">Novo Aporte +</AnimatedButton>
     </motion.div>
   );
 }
