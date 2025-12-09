@@ -2,38 +2,19 @@
 
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Label,
-  Pie,
-  PieChart,
-  XAxis,
-  YAxis,
-} from "recharts";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { fetchStocks } from "@/app/services/topstock";
-import { Loader2, PieChart as PieIcon, BarChart3 } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import { ChartConfig } from "@/components/ui/chart";
 
 import { DashboardHeader } from "./DashboardHeader";
 import { GoalProgressWidget } from "./GoalProgressWidget";
 import { NewsFlashWidget } from "./NewsFlashWidget";
 import { MarketMovers } from "./market-movers/MarketMovers";
+
+import { AllocationChart } from "@/components/dashboard/AllocationChart";
+import { ResultsChart } from "@/components/dashboard/ResultsChart";
 
 interface Transaction {
   id: string;
@@ -52,7 +33,6 @@ interface Position {
   quantidade: number;
   totalInvestido: number;
 }
-
 interface Goal {
   id: string;
   title: string;
@@ -69,10 +49,6 @@ const PIE_COLORS = [
   "#6366f1",
   "#64748b",
 ];
-const barChartConfig = {
-  investido: { label: "Investido", color: "#cbd5e1" },
-  atual: { label: "Atual", color: "#1e293b" },
-} satisfies ChartConfig;
 
 export function DashboardOverview() {
   const { data: transactions } = useQuery<Transaction[]>({
@@ -93,6 +69,7 @@ export function DashboardOverview() {
 
   const dashboardData = useMemo(() => {
     if (!transactions || !quotes) return null;
+
     const positionMap: Record<string, Position> = {};
 
     transactions.forEach((tx) => {
@@ -119,6 +96,7 @@ export function DashboardOverview() {
     const activePositions = Object.values(positionMap).filter(
       (p) => p.quantidade > 0
     );
+
     const pieData = activePositions
       .map((p, index) => {
         const quote = quotes.find((q) => q.symbol === p.ticker);
@@ -181,105 +159,11 @@ export function DashboardOverview() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <Card className="flex flex-col border-none shadow-sm h-full">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 text-lg font-semibold text-gray-800">
-                <PieIcon className="w-5 h-5 text-blue-600" /> Alocação da
-                Carteira
-              </CardTitle>
-              <CardDescription>
-                Onde seu dinheiro está investido
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1 flex flex-col md:flex-row items-center gap-4">
-              <div className="w-full md:w-1/2 aspect-square max-h-[220px]">
-                <ChartContainer
-                  config={dashboardData.pieConfig}
-                  className="mx-auto w-full h-full"
-                >
-                  <PieChart>
-                    <ChartTooltip
-                      cursor={false}
-                      content={<ChartTooltipContent hideLabel />}
-                    />
-                    <Pie
-                      data={dashboardData.pieData}
-                      dataKey="value"
-                      nameKey="ticker"
-                      innerRadius={55}
-                      outerRadius={80}
-                      strokeWidth={2}
-                      stroke="#fff"
-                    >
-                      <Label
-                        content={({ viewBox }) => {
-                          if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                            return (
-                              <text
-                                x={viewBox.cx}
-                                y={viewBox.cy}
-                                textAnchor="middle"
-                                dominantBaseline="middle"
-                              >
-                                <tspan
-                                  x={viewBox.cx}
-                                  y={viewBox.cy}
-                                  className="fill-gray-900 text-xl font-bold"
-                                >
-                                  R$
-                                  {(
-                                    dashboardData.totalPatrimony / 1000
-                                  ).toFixed(1)}
-                                  k
-                                </tspan>
-                                <tspan
-                                  x={viewBox.cx}
-                                  y={(viewBox.cy || 0) + 20}
-                                  className="fill-gray-500 text-xs"
-                                >
-                                  Total
-                                </tspan>
-                              </text>
-                            );
-                          }
-                        }}
-                      />
-                    </Pie>
-                  </PieChart>
-                </ChartContainer>
-              </div>
-              <div className="w-full md:w-1/2 space-y-3">
-                {dashboardData.pieData.map((item) => (
-                  <div
-                    key={item.ticker}
-                    className="flex items-center justify-between text-sm group cursor-default"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div
-                        className="w-3 h-3 rounded-full"
-                        style={{ backgroundColor: item.fill }}
-                      />
-                      <span className="font-medium text-gray-700 group-hover:text-gray-900 transition-colors">
-                        {item.ticker}
-                      </span>
-                    </div>
-                    <div className="text-right">
-                      <span className="block font-bold text-gray-900">
-                        {(
-                          (item.value / dashboardData.totalPatrimony) *
-                          100
-                        ).toFixed(1)}
-                        %
-                      </span>
-                      <span className="block text-xs text-gray-400">
-                        R$ {(item.value / 1000).toFixed(1)}k
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <AllocationChart
+            data={dashboardData.pieData}
+            totalPatrimony={dashboardData.totalPatrimony}
+            config={dashboardData.pieConfig}
+          />
         </motion.div>
 
         <motion.div
@@ -288,64 +172,7 @@ export function DashboardOverview() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <Card className="border-none shadow-sm h-full flex flex-col">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg font-semibold text-gray-800">
-                <BarChart3 className="w-5 h-5 text-blue-600" /> Resultado por
-                Ativo
-              </CardTitle>
-              <CardDescription>
-                Comparativo: Valor Investido vs. Valor de Mercado
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1">
-              <ChartContainer
-                config={barChartConfig}
-                className="h-[300px] w-full"
-              >
-                <BarChart
-                  accessibilityLayer
-                  data={dashboardData.barData}
-                  barGap={4}
-                >
-                  <CartesianGrid
-                    vertical={false}
-                    strokeDasharray="3 3"
-                    stroke="#f1f5f9"
-                  />
-                  <XAxis
-                    dataKey="ticker"
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
-                    tick={{ fill: "#64748b", fontSize: 12 }}
-                  />
-                  <YAxis
-                    tickLine={false}
-                    axisLine={false}
-                    tickFormatter={(value) => `R$${value / 1000}k`}
-                    tick={{ fill: "#64748b", fontSize: 12 }}
-                  />
-                  <ChartTooltip
-                    cursor={{ fill: "#f8fafc" }}
-                    content={<ChartTooltipContent indicator="dot" />}
-                  />
-                  <Bar
-                    dataKey="investido"
-                    fill="var(--color-investido)"
-                    radius={[4, 4, 0, 0]}
-                    maxBarSize={50}
-                  />
-                  <Bar
-                    dataKey="atual"
-                    fill="var(--color-atual)"
-                    radius={[4, 4, 0, 0]}
-                    maxBarSize={50}
-                  />
-                </BarChart>
-              </ChartContainer>
-            </CardContent>
-          </Card>
+          <ResultsChart data={dashboardData.barData} />
         </motion.div>
       </div>
 
