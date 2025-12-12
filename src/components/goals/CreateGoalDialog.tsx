@@ -12,11 +12,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { CreateGoalDTO } from "@/types/goals";
 
 interface CreateGoalDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit: (data: unknown) => void;
+  onSubmit: (data: CreateGoalDTO) => void;
   isLoading: boolean;
 }
 

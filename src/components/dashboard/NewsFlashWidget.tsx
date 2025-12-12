@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Zap, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { ALL_NEWS, NewsItem } from "@/data/news-data";
+import { ALL_NEWS } from "@/data/news-data";
+import { NewsItem } from "@/types/news";
 
 export function NewsFlashWidget() {
   const router = useRouter();
@@ -54,7 +55,7 @@ export function NewsFlashWidget() {
             ) : (
               randomNews.map((item, i) => (
                 <motion.div
-                  key={item.id}
+                  key={item._id}
                   className="group cursor-pointer border-l-2 border-transparent hover:border-[#014635] pl-3 transition-all"
                   onClick={handleNavigate}
                   initial={{ opacity: 0, x: -10 }}

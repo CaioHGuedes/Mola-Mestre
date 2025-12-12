@@ -5,7 +5,7 @@ import { Clock, Tag, TrendingUp } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { NewsItem } from "@/data/news-data";
+import { NewsItem } from "@/types/news";
 
 interface FeaturedNewsProps {
   news: NewsItem;

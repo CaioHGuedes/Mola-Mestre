@@ -4,40 +4,25 @@ import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { fetchStocks } from "@/app/services/topstock";
 import { Loader2 } from "lucide-react";
 import { ChartConfig } from "@/components/ui/chart";
-
 import { DashboardHeader } from "./DashboardHeader";
 import { GoalProgressWidget } from "./GoalProgressWidget";
 import { NewsFlashWidget } from "./NewsFlashWidget";
 import { MarketMovers } from "./market-movers/MarketMovers";
-
 import { AllocationChart } from "@/components/dashboard/AllocationChart";
-import { ResultsChart } from "@/components/dashboard/ResultsChart";
+import {
+  ResultsChart,
+  AssetPerformance,
+} from "@/components/dashboard/ResultsChart";
+import { fetchStocks } from "@/app/services/topstock";
+import { Stock, Transaction } from "@/types/actives";
+import { Goal } from "@/types/goals";
 
-interface Transaction {
-  id: string;
-  ticker: string;
-  quantidade: number | string;
-  preco: number | string;
-  tipo: "COMPRA" | "VENDA";
-  data: string;
-}
-interface StockQuote {
-  symbol: string;
-  regularMarketPrice: number;
-}
-interface Position {
+interface PositionCalculated {
   ticker: string;
   quantidade: number;
   totalInvestido: number;
-}
-interface Goal {
-  id: string;
-  title: string;
-  targetAmount: number;
-  currentAmount: number;
 }
 
 const PIE_COLORS = [
@@ -56,7 +41,7 @@ export function DashboardOverview() {
     queryFn: async () => (await axios.get("/api/transactions")).data,
   });
 
-  const { data: quotes } = useQuery<StockQuote[]>({
+  const { data: stocks } = useQuery<Stock[]>({
     queryKey: ["quotes-dashboard"],
     queryFn: () => fetchStocks(["PETR4", "VALE3", "ITUB4", "MGLU3"]),
     refetchInterval: 60000,
@@ -68,20 +53,24 @@ export function DashboardOverview() {
   });
 
   const dashboardData = useMemo(() => {
-    if (!transactions || !quotes) return null;
+    if (!transactions || !stocks) return null;
 
-    const positionMap: Record<string, Position> = {};
+    const positionMap: Record<string, PositionCalculated> = {};
 
     transactions.forEach((tx) => {
       const qtd = Number(tx.quantidade);
       const preco = Number(tx.preco);
-      if (!positionMap[tx.ticker])
+
+      if (!positionMap[tx.ticker]) {
         positionMap[tx.ticker] = {
           ticker: tx.ticker,
           quantidade: 0,
           totalInvestido: 0,
         };
+      }
+
       const item = positionMap[tx.ticker];
+
       if (tx.tipo === "COMPRA") {
         item.quantidade += qtd;
         item.totalInvestido += qtd * preco;
@@ -99,8 +88,9 @@ export function DashboardOverview() {
 
     const pieData = activePositions
       .map((p, index) => {
-        const quote = quotes.find((q) => q.symbol === p.ticker);
-        const currentPrice = quote?.regularMarketPrice || 0;
+        const stock = stocks.find((s) => s.symbol === p.ticker);
+        const currentPrice = stock?.regularMarketPrice || 0;
+
         return {
           ticker: p.ticker,
           value: p.quantidade * currentPrice,
@@ -109,12 +99,12 @@ export function DashboardOverview() {
       })
       .sort((a, b) => b.value - a.value);
 
-    const barData = activePositions.map((p) => {
-      const quote = quotes.find((q) => q.symbol === p.ticker);
+    const barData: AssetPerformance[] = activePositions.map((p) => {
+      const stock = stocks.find((s) => s.symbol === p.ticker);
       return {
         ticker: p.ticker,
         investido: p.totalInvestido,
-        atual: p.quantidade * (quote?.regularMarketPrice || 0),
+        atual: p.quantidade * (stock?.regularMarketPrice || 0),
       };
     });
 
@@ -130,14 +120,15 @@ export function DashboardOverview() {
     });
 
     return { pieData, barData, totalPatrimony, totalInvested, pieConfig };
-  }, [transactions, quotes]);
+  }, [transactions, stocks]);
 
-  if (!dashboardData)
+  if (!dashboardData) {
     return (
       <div className="flex h-[50vh] items-center justify-center">
         <Loader2 className="w-10 h-10 animate-spin text-gray-300" />
       </div>
     );
+  }
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-10">

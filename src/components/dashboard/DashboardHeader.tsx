@@ -1,47 +1,61 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { User, Sun, Moon, Sunrise } from "lucide-react";
+import { User, Sun, Moon, Sunrise, LucideIcon } from "lucide-react";
 
 interface DashboardHeaderProps {
   userName?: string;
 }
 
+interface GreetingData {
+  greeting: string;
+  icon: LucideIcon;
+  message: string;
+  color: string;
+}
+
 export function DashboardHeader({
   userName = "Investidor",
 }: DashboardHeaderProps) {
-  const {
-    greeting,
-    icon: Icon,
-    message,
-    color,
-  } = useMemo(() => {
+  const [greetingData, setGreetingData] = useState<GreetingData | null>(null);
+
+  useEffect(() => {
     const hour = new Date().getHours();
 
+    let data: GreetingData;
+
     if (hour >= 5 && hour < 12) {
-      return {
+      data = {
         greeting: "Bom dia",
         icon: Sunrise,
         message: "O mercado está abrindo com oportunidades.",
         color: "text-amber-500",
       };
     } else if (hour >= 12 && hour < 18) {
-      return {
+      data = {
         greeting: "Boa tarde",
         icon: Sun,
         message: "Acompanhe o fechamento das suas posições.",
         color: "text-orange-500",
       };
     } else {
-      return {
+      data = {
         greeting: "Boa noite",
         icon: Moon,
         message: "Hora de planejar o dia de amanhã.",
         color: "text-indigo-500",
       };
     }
+
+    setGreetingData(data);
   }, []);
+
+  if (!greetingData) {
+    return <div className="h-24" />;
+  }
+
+  const { greeting, icon: Icon, message, color } = greetingData;
 
   return (
     <motion.div

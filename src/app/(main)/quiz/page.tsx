@@ -1,14 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  ALL_QUESTIONS,
-  QuizQuestion,
-  Dificuldade,
-} from "@/data/quiz-questions";
+import { ALL_QUESTIONS } from "@/data/quiz-questions";
 import { QuizMenu } from "@/components/quiz/QuizMenu";
 import { QuizGame } from "@/components/quiz/QuizGame";
 import { QuizResult } from "@/components/quiz/QuizResult";
+import { Dificuldade, QuizQuestion } from "@/types/quiz";
 
 export default function QuizFinanceiroPage() {
   const [dificuldade, setDificuldade] = useState<Dificuldade | null>(null);

@@ -4,12 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchStocks } from "@/app/services/topstock";
 import { StockCard } from "./StockCard";
 import { EmptyCard } from "./EmptyCard";
-import { StockQuote } from "@/types/market-movers";
+import { Stock } from "@/types/actives";
 
 const STOCKS = ["PETR4", "MGLU3", "VALE3", "ITUB4"];
 
 export function MarketMovers() {
-  const { data: stocks, isLoading } = useQuery<StockQuote[]>({
+  const { data: stocks, isLoading } = useQuery<Stock[]>({
     queryKey: ["market-movers"],
     queryFn: () => fetchStocks(STOCKS),
     refetchInterval: 30000,

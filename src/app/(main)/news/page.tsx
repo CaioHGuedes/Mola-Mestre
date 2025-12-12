@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { ALL_NEWS, NewsItem } from "@/data/news-data";
+import { ALL_NEWS } from "@/data/news-data";
 import { NewsHeader } from "@/components/news/news-header";
 import { FeaturedNews } from "@/components/news/featured-news";
 import { NewsGrid } from "@/components/news/news-grid";
 import { NewsModal } from "@/components/news/news-modal";
+import { NewsItem } from "@/types/news";
 
 const CATEGORIES = ["TODAS", "MERCADO", "FIIS", "CRIPTO", "MACRO", "AÇÕES"];
 

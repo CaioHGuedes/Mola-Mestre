@@ -3,13 +3,15 @@
 import React, { useState } from "react";
 import { Plus, Loader2, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useGoals, Goal } from "@/hooks/useGoals";
+import { useGoals } from "@/hooks/useGoals";
 
 import { GoalCard } from "@/components/goals/GoalCard";
 import { CreateGoalDialog } from "@/components/goals/CreateGoalDialog";
 import { AddValueDialog } from "@/components/goals/AddValueDialog";
 import { DeleteGoalDialog } from "@/components/goals/DeleteGoalDialog";
 import { AnimatedButton } from "@/components/ui/animated-button";
+import { motion } from "framer-motion";
+import { Goal } from "@/types/goals";
 
 export default function GoalsPage() {
   const { goals, isLoading, createGoal, addValue, deleteGoal } = useGoals();
@@ -30,7 +32,12 @@ export default function GoalsPage() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-gray-50/50 p-6 md:p-8">
+    <motion.div
+      initial={{ opacity: 0, x: -50 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.2, ease: "circOut" }}
+      className="w-full min-h-screen bg-gray-50/50 p-6 md:p-8"
+    >
       <div className="w-full space-y-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1">
@@ -53,7 +60,12 @@ export default function GoalsPage() {
         )}
 
         {!isLoading && (!goals || goals.length === 0) && (
-          <div className="flex flex-col items-center justify-center h-64 border-2 border-dashed border-gray-200 rounded-xl bg-gray-50/50">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="flex flex-col items-center justify-center h-64 border-2 border-dashed border-gray-200 rounded-xl bg-gray-50/50"
+          >
             <div className="p-4 bg-white rounded-full shadow-sm mb-4">
               <Target className="w-8 h-8 text-gray-400" />
             </div>
@@ -67,10 +79,15 @@ export default function GoalsPage() {
             >
               Criar primeira meta
             </Button>
-          </div>
+          </motion.div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+        >
           {goals?.map((goal) => (
             <GoalCard
               key={goal._id}
@@ -79,7 +96,7 @@ export default function GoalsPage() {
               onDelete={handleOpenDelete}
             />
           ))}
-        </div>
+        </motion.div>
 
         <CreateGoalDialog
           open={isCreateOpen}
@@ -113,6 +130,6 @@ export default function GoalsPage() {
           }}
         />
       </div>
-    </div>
+    </motion.div>
   );
 }

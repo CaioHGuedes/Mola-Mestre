@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, Plus } from "lucide-react";
+import { TransactionType } from "@/types/actives";
 
 interface TransactionSuccessProps {
-  tipo: "COMPRA" | "VENDA";
+  tipo: TransactionType;
   onAddNew: () => void;
   onClose: () => void;
 }

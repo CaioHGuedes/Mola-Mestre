@@ -7,25 +7,9 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { Loader2, Mail, Lock, LogIn } from "lucide-react";
-import { AuthLayout } from "@/components/auth/AuthLayout"; // Importe o layout criado
-
-interface LoginFormData {
-  email: string;
-  senha: string;
-}
-
-interface ApiError {
-  erro: string;
-}
-
-interface LoginResponse {
-  msg: string;
-  usuario: {
-    id: string;
-    nome: string;
-    email: string;
-  };
-}
+import { AuthLayout } from "@/components/auth/AuthLayout";
+import { LoginFormData, LoginResponse } from "@/types/auth";
+import { ApiError } from "@/types/api";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");

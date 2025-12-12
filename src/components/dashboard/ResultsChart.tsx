@@ -17,12 +17,14 @@ import {
 } from "@/components/ui/chart";
 import { ChartEmptyState } from "./ChartEmptyState";
 
+export interface AssetPerformance {
+  ticker: string;
+  investido: number;
+  atual: number;
+}
+
 interface ResultsChartProps {
-  data: {
-    ticker: string;
-    investido: number;
-    atual: number;
-  }[];
+  data: AssetPerformance[];
 }
 
 const barChartConfig = {
@@ -59,7 +61,6 @@ export function ResultsChart({ data }: ResultsChartProps) {
                 stroke="#f1f5f9"
               />
               <XAxis
-                dataKey="ticker"
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
@@ -68,7 +69,7 @@ export function ResultsChart({ data }: ResultsChartProps) {
               <YAxis
                 tickLine={false}
                 axisLine={false}
-                tickFormatter={(value) => `R$${value / 1000}k`}
+                tickFormatter={(value: number) => `R$${value / 1000}k`}
                 tick={{ fill: "#64748b", fontSize: 12 }}
               />
               <ChartTooltip

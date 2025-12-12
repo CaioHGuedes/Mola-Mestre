@@ -1,24 +1,39 @@
-export interface TransactionPayload {
+export type TransactionType = "COMPRA" | "VENDA";
+
+export interface Transaction {
+  id: string;
   ticker: string;
-  tipo: "COMPRA" | "VENDA";
   quantidade: number;
   preco: number;
-  data: Date;
+  tipo: TransactionType;
+  data: string;
 }
 
-export interface Transaction extends TransactionPayload {
-  _id: string;
-}
-
-export interface DashboardItem {
+export interface CreateTransactionDTO {
   ticker: string;
+  tipo: TransactionType;
   quantidade: number;
-  precoMedio: number;
-  totalInvestido: number;
-  precoAtual: number;
-  saldoAtual: number;
-  rentabilidadeVal: number;
-  rentabilidadePerc: number;
-  variacaoDia: number;
-  logoUrl?: string;
+  preco: number;
+  data: Date | string;
 }
+
+export interface DividendItem {
+  assetIssued: string;
+  paymentDate: string;
+  rate: number;
+  label: string;
+}
+
+export interface Stock {
+  symbol: string;
+  shortName: string;
+  regularMarketPrice: number;
+  regularMarketChange: number;
+  regularMarketChangePercent: number;
+  logourl?: string;
+  dividendsData?: {
+    cashDividends?: DividendItem[];
+  };
+}
+
+export type MoverType = "high" | "low";

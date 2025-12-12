@@ -8,20 +8,8 @@ import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { Loader2, User, Mail, Lock, ArrowRight } from "lucide-react";
 import { AuthLayout } from "@/components/auth/AuthLayout";
-
-interface RegisterFormData {
-  nome: string;
-  email: string;
-  senha: string;
-}
-
-interface SuccessResponse {
-  msg: string;
-}
-
-interface ApiError {
-  erro: string;
-}
+import { ApiError } from "@/types/api";
+import { RegisterFormData, RegisterResponse } from "@/types/auth";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -31,12 +19,12 @@ export default function RegisterPage() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const mutation = useMutation<
-    SuccessResponse,
+    RegisterResponse,
     AxiosError<ApiError>,
     RegisterFormData
   >({
     mutationFn: async (userData) => {
-      const response = await axios.post<SuccessResponse>(
+      const response = await axios.post<RegisterResponse>(
         "/api/auth/register",
         userData
       );

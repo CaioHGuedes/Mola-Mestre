@@ -9,7 +9,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { NewsItem } from "@/data/news-data";
+import { NewsItem } from "@/types/news";
 
 interface NewsModalProps {
   news: NewsItem | null;

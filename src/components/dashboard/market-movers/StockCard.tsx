@@ -3,10 +3,10 @@
 import Image from "next/image";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { MoverType, StockQuote } from "@/types/market-movers";
+import { MoverType, Stock } from "@/types/actives";
 
 interface StockCardProps {
-  stock: StockQuote;
+  stock: Stock;
   type: MoverType;
 }
 

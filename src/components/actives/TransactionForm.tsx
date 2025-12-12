@@ -14,27 +14,29 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { fetchStocks } from "@/app/services/topstock";
 import { Loader2, AlertCircle } from "lucide-react";
-import { Transaction, TransactionPayload } from "@/types/actives";
 import { formatCurrency } from "@/lib/utils";
+
+import {
+  Transaction,
+  CreateTransactionDTO,
+  TransactionType,
+} from "@/types/actives";
+import { ApiError } from "@/types/api";
 
 const STOCKS = ["PETR4", "MGLU3", "VALE3", "ITUB4"];
 
 interface TransactionFormProps {
-  onSuccess: (tipo: "COMPRA" | "VENDA") => void;
+  onSuccess: (tipo: TransactionType) => void;
   onCancel: () => void;
 }
 
-interface ApiErrorResponse {
-  erro: string;
-}
-
-interface ApiSuccessResponse {
+interface TransactionSuccessResponse {
   msg: string;
   transaction: Transaction;
 }
 
 export function TransactionForm({ onSuccess, onCancel }: TransactionFormProps) {
-  const [tipo, setTipo] = useState<"COMPRA" | "VENDA">("COMPRA");
+  const [tipo, setTipo] = useState<TransactionType>("COMPRA");
   const [ticker, setTicker] = useState("");
   const [quantidade, setQuantidade] = useState<number | string>("");
   const [preco, setPreco] = useState<number | string>("");
@@ -57,12 +59,12 @@ export function TransactionForm({ onSuccess, onCancel }: TransactionFormProps) {
   }, [ticker]);
 
   const mutation = useMutation<
-    ApiSuccessResponse,
-    AxiosError<ApiErrorResponse>,
-    TransactionPayload
+    TransactionSuccessResponse,
+    AxiosError<ApiError>,
+    CreateTransactionDTO
   >({
     mutationFn: async (newTx) => {
-      const response = await axios.post<ApiSuccessResponse>(
+      const response = await axios.post<TransactionSuccessResponse>(
         "/api/transactions",
         newTx
       );

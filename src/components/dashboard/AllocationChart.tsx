@@ -16,13 +16,10 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { ChartEmptyState } from "./ChartEmptyState";
+import { AllocationDataItem } from "@/types/dashboard";
 
 interface AllocationChartProps {
-  data: {
-    ticker: string;
-    value: number;
-    fill: string;
-  }[];
+  data: AllocationDataItem[];
   totalPatrimony: number;
   config: ChartConfig;
 }

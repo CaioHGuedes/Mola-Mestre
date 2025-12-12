@@ -1,15 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { DollarSign, TrendingUp, HandCoins, ArrowUpDown } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
+import { DashboardSummary } from "@/types/dashboard";
 
 interface SummaryProps {
-  summary: {
-    patrimonioTotal: number;
-    valorInvestidoTotal: number;
-    lucroTotal: number;
-    variacao: number;
-    proventos: number;
-  };
+  summary: DashboardSummary;
 }
 
 export function SummaryCards({ summary }: SummaryProps) {
@@ -20,7 +15,7 @@ export function SummaryCards({ summary }: SummaryProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-      {/* Card 1: Patrimônio Total */}
+      {/* Patrimônio Total */}
       <Card className="shadow-sm hover:shadow-md transition-shadow">
         <CardContent className="p-6">
           <div className="flex justify-between items-start mb-4">
@@ -48,7 +43,7 @@ export function SummaryCards({ summary }: SummaryProps) {
         </CardContent>
       </Card>
 
-      {/* Card 2: Lucro/Prejuízo */}
+      {/* Lucro/Prejuízo */}
       <Card className="shadow-sm hover:shadow-md transition-shadow">
         <CardContent className="p-6">
           <div className="flex justify-between items-start mb-4">
@@ -109,7 +104,7 @@ export function SummaryCards({ summary }: SummaryProps) {
         </CardContent>
       </Card>
 
-      {/* Card 4: Variação do Dia */}
+      {/* Variação do Dia */}
       <Card className="shadow-sm hover:shadow-md transition-shadow">
         <CardContent className="p-6">
           <div className="flex justify-between items-start mb-4">

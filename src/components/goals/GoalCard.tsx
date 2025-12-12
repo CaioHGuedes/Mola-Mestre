@@ -11,7 +11,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
-import { Goal } from "@/hooks/useGoals";
+import { Goal } from "@/types/goals";
 
 interface GoalCardProps {
   goal: Goal;

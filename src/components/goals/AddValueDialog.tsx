@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Goal } from "@/hooks/useGoals";
+import { Goal } from "@/types/goals";
 
 interface AddValueDialogProps {
   open: boolean;

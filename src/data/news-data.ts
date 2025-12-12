@@ -1,17 +1,8 @@
-export interface NewsItem {
-  id: number;
-  tag: "MERCADO" | "FIIS" | "CRIPTO" | "MACRO" | "AÇÕES";
-  title: string;
-  excerpt: string;
-  content: string;
-  time: string;
-  readTime: string;
-  sentiment: "positive" | "negative" | "neutral";
-}
+import { NewsItem } from "@/types/news";
 
 export const ALL_NEWS: NewsItem[] = [
   {
-    id: 1,
+    _id: 1,
     tag: "MERCADO",
     title: "Ibovespa renova máxima histórica impulsionado por Vale e Petrobras",
     excerpt:
@@ -28,7 +19,7 @@ Analistas do banco BTG Pactual apontam que o cenário externo, com a estabiliza�
     sentiment: "positive",
   },
   {
-    id: 2,
+    _id: 2,
     tag: "MACRO",
     title: "Inflação nos EUA (CPI) vem acima do esperado e pressiona FED",
     excerpt:
@@ -43,7 +34,7 @@ Como reflexo imediato, os rendimentos dos Treasuries (títulos do tesouro americ
     sentiment: "negative",
   },
   {
-    id: 3,
+    _id: 3,
     tag: "CRIPTO",
     title: "Bitcoin rompe resistência dos US$ 70.000 com forte fluxo de ETFs",
     excerpt:
@@ -60,7 +51,7 @@ Além do choque de demanda institucional, o mercado se prepara para o "Halving",
     sentiment: "positive",
   },
   {
-    id: 4,
+    _id: 4,
     tag: "FIIS",
     title: "MXRF11 anuncia dividendos recordes e novas aquisições",
     excerpt:
@@ -75,7 +66,7 @@ A gestão do fundo também comunicou a aquisição de novos ativos atrelados ao 
     sentiment: "positive",
   },
   {
-    id: 5,
+    _id: 5,
     tag: "AÇÕES",
     title: "Varejistas sofrem na Bolsa com abertura da curva de juros futura",
     excerpt:
@@ -90,7 +81,7 @@ Analistas gráficos apontam que MGLU3 perdeu um suporte importante nos R$ 2,00 e
     sentiment: "negative",
   },
   {
-    id: 6,
+    _id: 6,
     tag: "MACRO",
     title: "Copom sinaliza cautela e reduz ritmo de cortes da Selic para 0,25%",
     excerpt:
@@ -105,7 +96,7 @@ O mercado reagiu com volatilidade. Por um lado, juros mais altos por mais tempo 
     sentiment: "neutral",
   },
   {
-    id: 7,
+    _id: 7,
     tag: "AÇÕES",
     title: "WEG (WEGE3) supera estimativas e anuncia programa de recompra",
     excerpt:
@@ -120,7 +111,7 @@ Junto com o resultado, o conselho de administração aprovou um novo programa de
     sentiment: "positive",
   },
   {
-    id: 8,
+    _id: 8,
     tag: "FIIS",
     title: "IFIX opera de lado aguardando definição sobre tributação",
     excerpt:

@@ -2,7 +2,7 @@
 
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { MoverType } from "@/types/market-movers";
+import { MoverType } from "@/types/actives";
 
 interface EmptyCardProps {
   type: MoverType;

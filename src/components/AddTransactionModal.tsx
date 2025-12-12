@@ -13,15 +13,16 @@ import { triggerConfetti } from "@/lib/confetti";
 import { TransactionForm } from "@/components/actives/TransactionForm";
 import { TransactionSuccess } from "@/components/actives/TransactionSuccess";
 import { AnimatedButton } from "./ui/animated-button";
+import { TransactionType } from "@/types/actives";
 
 type ModalStep = "FORM" | "SUCCESS";
 
 export function AddTransactionModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState<ModalStep>("FORM");
-  const [lastTransactionType, setLastTransactionType] = useState<
-    "COMPRA" | "VENDA"
-  >("COMPRA");
+
+  const [lastTransactionType, setLastTransactionType] =
+    useState<TransactionType>("COMPRA");
 
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
@@ -35,7 +36,7 @@ export function AddTransactionModal() {
     }
   };
 
-  const handleSuccess = (tipo: "COMPRA" | "VENDA") => {
+  const handleSuccess = (tipo: TransactionType) => {
     setLastTransactionType(tipo);
     setStep("SUCCESS");
     triggerConfetti();
@@ -59,11 +60,9 @@ export function AddTransactionModal() {
         }`}
       >
         <DialogHeader>
-          {step === "FORM" ? (
-            <DialogTitle>Novo Lançamento</DialogTitle>
-          ) : (
-            <DialogTitle className="sr-only">Lançamento Realizado</DialogTitle>
-          )}
+          <DialogTitle className={step === "SUCCESS" ? "sr-only" : ""}>
+            {step === "FORM" ? "Novo Lançamento" : "Lançamento Realizado"}
+          </DialogTitle>
         </DialogHeader>
 
         {step === "FORM" ? (

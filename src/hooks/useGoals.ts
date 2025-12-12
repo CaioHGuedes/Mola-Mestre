@@ -1,17 +1,8 @@
 "use client";
 
+import { Goal, CreateGoalDTO } from "@/types/goals";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-
-export interface Goal {
-  _id: string;
-  title: string;
-  targetAmount: number;
-  currentAmount: number;
-  priority: boolean;
-  deadline?: string;
-  createdAt: string;
-}
 
 export function useGoals() {
   const queryClient = useQueryClient();
@@ -22,7 +13,7 @@ export function useGoals() {
   });
 
   const createGoal = useMutation({
-    mutationFn: async (newGoal: unknown) =>
+    mutationFn: async (newGoal: CreateGoalDTO) =>
       await axios.post("/api/goals", newGoal),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["goals"] }),
   });

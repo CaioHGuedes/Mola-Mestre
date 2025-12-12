@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { BookOpen, TrendingUp, Trophy, BrainCircuit } from "lucide-react";
 import { QuizLevelCard } from "./QuizLevelCard";
-import { Dificuldade } from "@/data/quiz-questions";
+import { Dificuldade } from "@/types/quiz";
 
 interface QuizMenuProps {
   onStart: (nivel: Dificuldade) => void;

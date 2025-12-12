@@ -1,8 +1,8 @@
-import { DashboardItem } from "@/types/actives";
+import { PortfolioItem } from "@/types/dashboard";
 import Image from "next/image";
 
 interface AssetListProps {
-  items: DashboardItem[];
+  items: PortfolioItem[];
 }
 
 export function AssetList({ items }: AssetListProps) {
@@ -19,15 +19,17 @@ export function AssetList({ items }: AssetListProps) {
         >
           <div className="flex items-center gap-4 lg:col-span-4">
             {item.logoUrl ? (
-              <Image
-                src={item.logoUrl}
-                width={48}
-                height={48}
-                alt={item.ticker}
-                className="rounded-full object-cover shadow-sm"
-              />
+              <div className="relative w-12 h-12 shrink-0">
+                <Image
+                  src={item.logoUrl}
+                  width={48}
+                  height={48}
+                  alt={item.ticker}
+                  className="rounded-full object-cover shadow-sm"
+                />
+              </div>
             ) : (
-              <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center font-bold text-gray-600 text-lg">
+              <div className="w-12 h-12 shrink-0 bg-gray-100 rounded-full flex items-center justify-center font-bold text-gray-600 text-lg">
                 {item.ticker.substring(0, 2)}
               </div>
             )}
@@ -63,7 +65,7 @@ export function AssetList({ items }: AssetListProps) {
               </p>
               <p className="font-semibold text-gray-700">
                 R${" "}
-                {item.precoAtual.toLocaleString("pt-BR", {
+                {(item.precoAtual || 0).toLocaleString("pt-BR", {
                   minimumFractionDigits: 2,
                 })}
               </p>
@@ -75,7 +77,7 @@ export function AssetList({ items }: AssetListProps) {
               </p>
               <p className="font-bold text-gray-900 text-lg">
                 R${" "}
-                {item.saldoAtual.toLocaleString("pt-BR", {
+                {(item.saldoAtual || 0).toLocaleString("pt-BR", {
                   minimumFractionDigits: 2,
                 })}
               </p>
@@ -87,17 +89,19 @@ export function AssetList({ items }: AssetListProps) {
               </p>
               <div
                 className={`font-bold ${
-                  item.rentabilidadeVal >= 0 ? "text-green-600" : "text-red-600"
+                  (item.rentabilidadeVal || 0) >= 0
+                    ? "text-green-600"
+                    : "text-red-600"
                 }`}
               >
                 <p>
-                  {item.rentabilidadeVal >= 0 ? "+" : ""}R${" "}
-                  {item.rentabilidadeVal.toLocaleString("pt-BR", {
+                  {(item.rentabilidadeVal || 0) >= 0 ? "+" : ""}R${" "}
+                  {(item.rentabilidadeVal || 0).toLocaleString("pt-BR", {
                     minimumFractionDigits: 2,
                   })}
                 </p>
                 <p className="text-xs">
-                  ({item.rentabilidadePerc.toFixed(2)}%)
+                  ({(item.rentabilidadePerc || 0).toFixed(2)}%)
                 </p>
               </div>
             </div>

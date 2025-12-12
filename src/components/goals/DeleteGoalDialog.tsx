@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Goal } from "@/hooks/useGoals";
+import { Goal } from "@/types/goals";
 
 interface DeleteGoalDialogProps {
   open: boolean;

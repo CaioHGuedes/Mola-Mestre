@@ -1,16 +1,8 @@
-export type Dificuldade = "Fácil" | "Médio" | "Difícil";
-
-export interface QuizQuestion {
-  id: number;
-  pergunta: string;
-  alternativas: string[];
-  respostaCorreta: number;
-  dificuldade: Dificuldade;
-}
+import { QuizQuestion } from "@/types/quiz";
 
 export const ALL_QUESTIONS: QuizQuestion[] = [
   {
-    id: 1,
+    _id: 1,
     pergunta: "O que significa a sigla SELIC?",
     alternativas: [
       "Sistema Especial de Liquidação e de Custódia",
@@ -22,7 +14,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Fácil",
   },
   {
-    id: 2,
+    _id: 2,
     pergunta: "O que é inflação?",
     alternativas: [
       "A queda generalizada dos preços",
@@ -34,7 +26,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Fácil",
   },
   {
-    id: 3,
+    _id: 3,
     pergunta: "Ao comprar uma ação na bolsa de valores, você se torna:",
     alternativas: [
       "Credor da empresa",
@@ -46,7 +38,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Fácil",
   },
   {
-    id: 4,
+    _id: 4,
     pergunta:
       "Qual investimento é conhecido por ser emprestar dinheiro ao governo?",
     alternativas: ["Ações", "Tesouro Direto", "CDB", "Fundo Imobiliário"],
@@ -54,7 +46,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Fácil",
   },
   {
-    id: 5,
+    _id: 5,
     pergunta: "O que são Dividendos?",
     alternativas: [
       "Taxas cobradas pela bolsa de valores",
@@ -66,7 +58,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Fácil",
   },
   {
-    id: 6,
+    _id: 6,
     pergunta: "O que significa Liquidez em um investimento?",
     alternativas: [
       "A facilidade e rapidez com que se converte o ativo em dinheiro",
@@ -78,7 +70,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Fácil",
   },
   {
-    id: 7,
+    _id: 7,
     pergunta: "Qual órgão é responsável por controlar a inflação no Brasil?",
     alternativas: [
       "Banco do Brasil",
@@ -90,7 +82,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Fácil",
   },
   {
-    id: 8,
+    _id: 8,
     pergunta: "O que é o CDI?",
     alternativas: [
       "Certificado de Depósito Interbancário",
@@ -102,7 +94,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Fácil",
   },
   {
-    id: 9,
+    _id: 9,
     pergunta:
       "Qual destas opções é considerada o investimento mais conservador/seguro?",
     alternativas: [
@@ -115,7 +107,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Fácil",
   },
   {
-    id: 10,
+    _id: 10,
     pergunta: "O que é um CDB?",
     alternativas: [
       "Certificado de Depósito Bancário",
@@ -128,7 +120,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
   },
 
   {
-    id: 11,
+    _id: 11,
     pergunta: "Qual é o valor máximo garantido pelo FGC por CPF e instituição?",
     alternativas: [
       "R$ 100.000,00",
@@ -140,7 +132,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Médio",
   },
   {
-    id: 12,
+    _id: 12,
     pergunta:
       "Qual destes investimentos é isento de Imposto de Renda para Pessoa Física?",
     alternativas: ["CDB", "Tesouro Direto", "LCI e LCA", "ETF de Ações"],
@@ -148,7 +140,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Médio",
   },
   {
-    id: 13,
+    _id: 13,
     pergunta: "O que é 'Day Trade'?",
     alternativas: [
       "Investir pensando na aposentadoria",
@@ -160,7 +152,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Médio",
   },
   {
-    id: 14,
+    _id: 14,
     pergunta: "O que significa a sigla IPO?",
     alternativas: [
       "Initial Public Offering (Oferta Pública Inicial)",
@@ -172,7 +164,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Médio",
   },
   {
-    id: 15,
+    _id: 15,
     pergunta:
       "Nos Fundos Imobiliários (FIIs), a distribuição de rendimentos costuma ser:",
     alternativas: ["Anual", "Semestral", "Mensal", "Diária"],
@@ -180,7 +172,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Médio",
   },
   {
-    id: 16,
+    _id: 16,
     pergunta: "O que é o indicador P/L (Preço sobre Lucro)?",
     alternativas: [
       "Quanto a empresa paga de lucro aos diretores",
@@ -192,7 +184,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Médio",
   },
   {
-    id: 17,
+    _id: 17,
     pergunta: "O que acontece no sistema de 'Come-Cotas' em fundos?",
     alternativas: [
       "O gestor cobra uma taxa extra de performance",
@@ -204,14 +196,14 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Médio",
   },
   {
-    id: 18,
+    _id: 18,
     pergunta: "Qual a alíquota de IR para Day Trade em ações?",
     alternativas: ["15%", "20%", "22,5%", "Isento até R$ 20 mil"],
     respostaCorreta: 1,
     dificuldade: "Médio",
   },
   {
-    id: 19,
+    _id: 19,
     pergunta: "O que é um ETF (Exchange Traded Fund)?",
     alternativas: [
       "Um fundo de pensão privada",
@@ -223,7 +215,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Médio",
   },
   {
-    id: 20,
+    _id: 20,
     pergunta: "O que significa 'Bear Market'?",
     alternativas: [
       "Mercado em tendência de alta",
@@ -236,7 +228,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
   },
 
   {
-    id: 21,
+    _id: 21,
     pergunta:
       "Qual o limite de isenção de IR para vendas mensais de ações (Swing Trade)?",
     alternativas: [
@@ -249,7 +241,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Difícil",
   },
   {
-    id: 22,
+    _id: 22,
     pergunta: "No mercado de Opções, o que é uma 'Put'?",
     alternativas: [
       "Uma opção de compra",
@@ -261,7 +253,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Difícil",
   },
   {
-    id: 23,
+    _id: 23,
     pergunta: "O que caracteriza uma política monetária 'Hawkish'?",
     alternativas: [
       "Tendência a baixar juros para estimular crescimento",
@@ -273,7 +265,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Difícil",
   },
   {
-    id: 24,
+    _id: 24,
     pergunta: "O que é 'Venda a Descoberto' (Short Selling)?",
     alternativas: [
       "Vender uma ação que você possui na carteira",
@@ -285,7 +277,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Difícil",
   },
   {
-    id: 25,
+    _id: 25,
     pergunta: "O que é um BDR?",
     alternativas: [
       "Um título de dívida do governo brasileiro",
@@ -297,7 +289,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Difícil",
   },
   {
-    id: 26,
+    _id: 26,
     pergunta: "Qual a alíquota de IR sobre o lucro na venda de cotas de FIIs?",
     alternativas: [
       "15% sobre o lucro",
@@ -309,7 +301,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Difícil",
   },
   {
-    id: 27,
+    _id: 27,
     pergunta: "O que é a 'Inversão da Curva de Juros'?",
     alternativas: [
       "Quando os juros de curto prazo ficam maiores que os de longo prazo",
@@ -321,7 +313,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Difícil",
   },
   {
-    id: 28,
+    _id: 28,
     pergunta: "O que é 'Marcação a Mercado' na Renda Fixa?",
     alternativas: [
       "A garantia de receber o valor contratado no vencimento",
@@ -333,7 +325,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Difícil",
   },
   {
-    id: 29,
+    _id: 29,
     pergunta: "O que é Beta em uma ação?",
     alternativas: [
       "A medida de volatilidade do ativo em relação ao mercado",
@@ -345,7 +337,7 @@ export const ALL_QUESTIONS: QuizQuestion[] = [
     dificuldade: "Difícil",
   },
   {
-    id: 30,
+    _id: 30,
     pergunta: "O que são Debêntures Incentivadas?",
     alternativas: [
       "Títulos de empresas com isenção de IR para pessoa física",

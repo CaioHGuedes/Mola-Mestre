@@ -4,13 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Target, Plus } from "lucide-react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-
-export interface Goal {
-  id: string;
-  title: string;
-  targetAmount: number;
-  currentAmount: number;
-}
+import { Goal } from "@/types/goals";
 
 interface GoalProgressWidgetProps {
   goals?: Goal[];

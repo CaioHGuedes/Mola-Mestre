@@ -6,7 +6,7 @@ import { CheckCircle2, XCircle, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
-import { QuizQuestion, Dificuldade } from "@/data/quiz-questions";
+import { Dificuldade, QuizQuestion } from "@/types/quiz";
 
 interface QuizGameProps {
   pergunta: QuizQuestion;
@@ -73,7 +73,7 @@ export function QuizGame({
 
         <AnimatePresence mode="wait">
           <motion.div
-            key={pergunta.id}
+            key={pergunta._id}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}

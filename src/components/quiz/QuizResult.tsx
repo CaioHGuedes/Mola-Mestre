@@ -11,7 +11,7 @@ import {
   BookOpenCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Dificuldade } from "@/data/quiz-questions";
+import { Dificuldade } from "@/types/quiz";
 
 interface QuizResultProps {
   acertos: number;

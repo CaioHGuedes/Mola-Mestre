@@ -10,13 +10,8 @@ import { SummaryCards } from "@/components/actives/SummaryCards";
 import { AssetList } from "@/components/actives/AssetList";
 import { TransactionHistory } from "@/components/actives/TransactionHistory";
 import { Transaction } from "@/types/actives";
-
-interface PortfolioItem {
-  ticker: string;
-  quantidade: number;
-  precoMedio: number;
-  totalInvestido: number;
-}
+import { motion } from "framer-motion";
+import { PortfolioItem } from "@/types/dashboard";
 
 export default function ActivesPage() {
   const { data: transactions, isLoading: loadingTx } = useQuery<Transaction[]>({
@@ -89,7 +84,7 @@ export default function ActivesPage() {
           (div) => {
             if (!div.paymentDate) return false;
             const ano = new Date(div.paymentDate).getFullYear();
-            // ALTERAR O ANO CASO DESEJAR
+            // ALTERAR CASO QUEIRA AUMENTAR O RANGE
             return ano >= 2024;
           }
         );
@@ -147,7 +142,12 @@ export default function ActivesPage() {
     );
 
   return (
-    <div className="space-y-8">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="space-y-8"
+    >
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">A minha carteira</h1>
@@ -173,6 +173,6 @@ export default function ActivesPage() {
         </h2>
         <TransactionHistory transactions={transactions || []} />
       </section>
-    </div>
+    </motion.div>
   );
 }
