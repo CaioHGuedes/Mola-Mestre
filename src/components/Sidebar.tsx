@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
@@ -109,14 +110,11 @@ export function Sidebar() {
             }
           `}
         >
-          <div className="w-32 h-32 relative">
-            <Image
+          <div className="w-16 h-16 flex items-center justify-center overflow-hidden">
+            <img
               src="/dollar_transparent.png"
               alt="Icone Logo"
-              fill
-              className="object-contain"
-              priority
-              sizes="40px"
+              className="w-full h-full object-contain scale-200"
             />
           </div>
         </div>
