@@ -4,10 +4,10 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { Loader2 } from "lucide-react";
+import { Loader2, Mail, Lock, LogIn } from "lucide-react";
+import { AuthLayout } from "@/components/auth/AuthLayout"; // Importe o layout criado
 
 interface LoginFormData {
   email: string;
@@ -55,76 +55,76 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md p-6 bg-white rounded-lg shadow-md"
-      >
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-          Entrar
-        </h2>
-
+    <AuthLayout
+      title="Bem-vindo de volta!"
+      subtitle="Insira suas credenciais para acessar sua conta."
+      linkText="Não tem uma conta?"
+      linkLabel="Cadastre-se gratuitamente"
+      linkHref="/register"
+    >
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-600 mb-1">
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700 ml-1">
               Email
             </label>
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="seu@email.com"
-              required
-            />
+            <div className="relative">
+              <Mail className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="seu@email.com"
+                required
+                className="pl-10 h-12 bg-gray-50 border-gray-200 focus:border-[#014635] focus:ring-[#014635]/20 rounded-xl"
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-600 mb-1">
-              Senha
-            </label>
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Sua senha"
-              required
-            />
+          <div className="space-y-2">
+            <div className="flex items-center justify-between ml-1">
+              <label className="text-sm font-medium text-gray-700">Senha</label>
+            </div>
+            <div className="relative">
+              <Lock className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+              <Input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+                className="pl-10 h-12 bg-gray-50 border-gray-200 focus:border-[#014635] focus:ring-[#014635]/20 rounded-xl"
+              />
+            </div>
           </div>
         </div>
 
         {mutation.error && (
-          <p className="text-sm mt-4 text-red-600 bg-red-100 p-2 rounded-md">
-            {mutation.error.response?.data?.erro ||
-              "Ocorreu um erro. Tente novamente."}
-          </p>
+          <div className="p-3 rounded-lg bg-red-50 border border-red-100 text-sm text-red-600 flex items-center animate-in fade-in slide-in-from-top-2">
+            <span>
+              {mutation.error.response?.data?.erro ||
+                "Ocorreu um erro. Tente novamente."}
+            </span>
+          </div>
         )}
 
-        <div className="mt-6">
-          <Button
-            className="w-full cursor-pointer"
-            type="submit"
-            disabled={mutation.isPending}
-          >
-            {mutation.isPending ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Entrando...
-              </>
-            ) : (
-              "Entrar"
-            )}
-          </Button>
-        </div>
-
-        <div className="mt-4 text-center">
-          <Link
-            href="/register"
-            className="text-sm text-blue-600 hover:underline"
-          >
-            Não tem uma conta? Crie agora!
-          </Link>
-        </div>
+        <Button
+          className="w-full h-12 text-base bg-[#014635] hover:bg-[#01332a] text-white rounded-xl shadow-lg shadow-emerald-900/10 transition-all duration-300 hover:scale-[1.01]"
+          type="submit"
+          disabled={mutation.isPending}
+        >
+          {mutation.isPending ? (
+            <>
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              Entrando...
+            </>
+          ) : (
+            <>
+              Entrar na Plataforma <LogIn className="ml-2 h-4 w-4" />
+            </>
+          )}
+        </Button>
       </form>
-    </div>
+    </AuthLayout>
   );
 }
